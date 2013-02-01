@@ -3,14 +3,19 @@ package com.example.mynews;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Fragment;
 
-import android.content.Intent;
+import com.example.mynews.pageindicator.TestFragmentAdapter;
+import com.viewpagerindicator.TitlePageIndicator;
+
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.support.v4.view.ViewPager;
 
 public class MainActivity extends Activity {
+
+	private TestFragmentAdapter mAdapter;
+	private ViewPager mPager;
+	private TitlePageIndicator mIndicator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,17 +23,24 @@ public class MainActivity extends Activity {
 		config.requireSlidingMenu = false;
 		init(config);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
-		findViewById(R.id.bt).setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent=new Intent(MainActivity.this,MenuActivity.class);
-				startActivity(intent);
-				
-			}
-		});
+		setContentView(R.layout.simple_titles_bottom);
+		mAdapter = new TestFragmentAdapter(getSupportFragmentManager());
+
+		mPager = (ViewPager) findViewById(R.id.pager);
+		mPager.setAdapter(mAdapter);
+
+		mIndicator = (TitlePageIndicator) findViewById(R.id.indicator);
+		mIndicator.setViewPager(mPager);
+
+		// findViewById(R.id.bt).setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// Intent intent=new Intent(MainActivity.this,MenuActivity.class);
+		// startActivity(intent);
+		//
+		// }
+		// });
 
 	}
 

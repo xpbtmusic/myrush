@@ -1,4 +1,3 @@
-
 package com.example.mynews.menu;
 
 import org.holoeverywhere.app.GridFragment;
@@ -20,7 +19,7 @@ public class MenuFragment extends GridFragment {
 		@Override
 		public int getCount() {
 			
-			return 10;
+			return 40;
 		}
 
 		@Override
@@ -61,7 +60,7 @@ public class MenuFragment extends GridFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getSupportActionBar().setSubtitle("Developers");
+      
     }
 
    
