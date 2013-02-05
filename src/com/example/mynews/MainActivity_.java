@@ -1,11 +1,10 @@
 package com.example.mynews;
 
-import org.holoeverywhere.addon.SlidingMenu.SlidingMenuA;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.ListView;
 
-import com.slidingmenu.lib.SlidingMenu;
+
 
 import android.os.Bundle;
 
@@ -24,19 +23,19 @@ public class MainActivity_ extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		
-		 final SlidingMenuA sm = requireSlidingMenu();
-	       
-	        sm.setContent(R.layout.content);
-	        sm.setBehindContentView(makeMenuView(savedInstanceState));
-	        
-	       sm.getSlidingMenu().setMode(SlidingMenu.LEFT);
-	        sm.getSlidingMenu().setBehindWidth(computeMenuWidth());
+//		
+//		 final SlidingMenuA sm = requireSlidingMenu();
+//	       
+//	        sm.setContent(R.layout.content);
+//	        sm.setBehindContentView(makeMenuView(savedInstanceState));
+//	        
+//	       sm.getSlidingMenu().setMode(SlidingMenu.LEFT);
+//	        sm.getSlidingMenu().setBehindWidth(computeMenuWidth());
 	}
 
-	 public SlidingMenuA requireSlidingMenu() {
-	        return requireAddon(org.holoeverywhere.addon.SlidingMenu.class).activity(this);
-	    }
+//	 public SlidingMenuA requireSlidingMenu() {
+//	        return requireAddon(org.holoeverywhere.addon.SlidingMenu.class).activity(this);
+//	    }
 	 private final class ListAdapter extends BaseAdapter{
 
 		@Override

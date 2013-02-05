@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="nirvana">
+		<item>Kurt Donald Cobain</item>
+		<item>Krist Anthony Novoselic</item>
+		<item>David Eric Grohl</item>
+		<item>Aaron Burckhard</item>
+		<item>Chad Channing</item>
+		<item>Daniel Joe Peters</item>
+		<item>Dave Foster</item>
+	</string-array>
+	<string-array name="skillet">
+		<item>John Landrum Cooper</item>
+		<item>Korene Marie Pingitore</item>
+		<item>Jennifer Carole Ledger</item>
+		<item>Jacob Seth Morrison</item>
+	</string-array>
+	
+	<string-array name="countries">
+	    <item>综合</item>
+		<item>腾讯</item>
+		<item>新浪</item>
+		<item>搜狐</item>
+		<item>凤凰</item>
+	    <item>1综合</item>
+		<item>1腾讯</item>
+		<item>1新浪</item>
+		<item>1搜狐</item>
+		<item>1凤凰</item>
+	    <item>2综合</item>
+		<item>2腾讯</item>
+		<item>2新浪</item>
+		<item>2搜狐</item>
+		<item>2凤凰</item>
+	    <item>3综合</item>
+		<item>3腾讯</item>
+		<item>3新浪</item>
+		<item>3搜狐</item>
+		<item>3凤凰</item>
+	    <item>4综合</item>
+		<item>4腾讯</item>
+		<item>4新浪</item>
+		<item>4搜狐</item>
+		<item>4凤凰</item>
+		</string-array>
+	<string-array name="adjectives">
+		<item>Kind</item>
+		<item>Enthusiastic</item>
+		<item>Yummy</item>
+		<item>Lucky</item>
+		<item>Immense</item>
+		<item>Miniature</item>
+		<item>Elated</item>
+		<item>Perfect</item>
+		<item>Incredible</item>
+		<item>Exuberant</item>
+		<item>Beautiful</item>
+		<item>Great</item>
+		<item>Stunning</item>
+		<item>Helpful</item>
+		<item>Startling</item>
+		<item>Fantastic</item>
+		<item>Colossal</item>
+		<item>Mysterious</item>
+		<item>Crazy</item>
+	</string-array>
+</resources>
