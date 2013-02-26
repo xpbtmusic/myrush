@@ -1,20 +1,29 @@
 package com.example.mynews;
 
+import java.util.List;
+
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Fragment;
-import org.mcsoxford.rss.RSSFeed;
-import org.mcsoxford.rss.RSSReader;
-import org.mcsoxford.rss.RSSReaderException;
+
 
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.example.mynews.pageindicator.TestFragmentAdapter;
+import com.example.mynews.service.INgnHttpClientService;
+import com.example.mynews.service.INgnSqliteService;
+import com.example.mynews.service.impl.HttpService;
+import com.example.mynews.service.impl.NgnSqliteService;
+import com.example.mynews.utils.ILog;
 import com.example.mynews.utils.StringUtils;
 import com.viewpagerindicator.TitlePageIndicator;
 
+
+import android.content.ContentValues;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -22,9 +31,13 @@ import android.util.Log;
 
 public class MainActivity extends Activity {
 
+	protected static final String uri = "http://192.168.11.30:8080/simplepie/demo/base.db";
+	protected static final int OK = 0;
+	protected static final int NOT_OK = 1;
 	private TestFragmentAdapter mAdapter;
 	private ViewPager mPager;
 	private TitlePageIndicator mIndicator;
+	private Handler handler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +46,22 @@ public class MainActivity extends Activity {
 		init(config);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.simple_titles_bottom);
+		handler = new Handler(new Handler.Callback() {
+
+			@Override
+			public boolean handleMessage(Message msg)
+			{
+				if (OK == msg.what) {
+					Print();
+					
+					return true;
+				} else if (NOT_OK == msg.what) {
+					
+					return true;
+				}
+				return false;
+			}
+		});
 		testRss();
 		mAdapter = new TestFragmentAdapter(getSupportFragmentManager());
 		
@@ -55,33 +84,33 @@ public class MainActivity extends Activity {
 
 	}
 
+	protected void Print() {
+		INgnSqliteService sql=new NgnSqliteService();
+		sql.start();
+		 List<ContentValues> lists=	sql.queryAll(NgnSqliteService.TB_NAME_CONTACTS);
+		 ILog.d("只是否", lists.size()+"");
+		 for(int i=0;i<lists.size();i++){
+			 
+			 ILog.d("只是否", lists.get(i).getAsString(NgnSqliteService.POST_TITLE)+"");
+		 }
+		
+		
+	}
+
 	private void testRss() {
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				RSSReader reader = new RSSReader();
-//				  String uri = "http://news.163.com/special/00011K6L/rss_newstop.xml";
-				  String uri = "http://news.baidu.com/n?cmd=4&class=civilnews&tn=rss";
-				  try {
-					RSSFeed feed = reader.load(uri);
-					Log.d("得到", feed.getDescription());
-					Log.d("得到1", feed.getTitle());
-					Log.d("得到2", feed.getTitle());
-					for(int i=0;i<feed.getItems().size();i++){
-						Log.d("得到3", feed.getItems().get(i).getContent()+"===");
-						Log.d("得到3", feed.getItems().get(i).getTitle()+"===");
-						Log.d("得到3", feed.getItems().get(i).getDescription()+"===");
-					}
-					
-				} catch (RSSReaderException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
+				INgnHttpClientService service=new HttpService();
+				service.start();
+				
+				service.getFile(uri);
+				handler.sendEmptyMessage(OK);
 				
 			}
 		}).start();
+
 		
 	}
 

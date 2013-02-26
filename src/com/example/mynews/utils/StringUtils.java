@@ -14,5 +14,14 @@ public class StringUtils {
 		
 		
 	}
+	public static boolean isNull(String s)
+	{
 
+		if ("".equals(s) || null == s || s.length() == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 }
