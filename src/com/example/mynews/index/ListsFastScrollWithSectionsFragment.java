@@ -9,11 +9,19 @@ import java.util.List;
 
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.util.CharSequences;
+import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.TextView;
+import org.holoeverywhere.widget.Toast;
 
+import android.content.Intent;
+import android.content.res.Resources;
+import android.view.View;
 import android.widget.SectionIndexer;
 
+import com.example.mynews.MainActivity;
 import com.example.mynews.R;
 import com.example.mynews.pageindicator.TestFragment;
+import com.example.mynews.utils.ILog;
 
 public class ListsFastScrollWithSectionsFragment extends ListsFastScrollFragment {
     private static final class CharacterWrapper {
@@ -29,13 +37,33 @@ public class ListsFastScrollWithSectionsFragment extends ListsFastScrollFragment
         }
     }
     public static ListsFastScrollWithSectionsFragment newInstance() {
-    	ListsFastScrollWithSectionsFragment fragment = new ListsFastScrollWithSectionsFragment();
+    	if(null==fragment){
+    		fragment = new ListsFastScrollWithSectionsFragment();
+    	}
+    	
 
        
 
         return fragment;
     }
-    private class CustomAdapter extends ArrayAdapter<CharSequence> implements SectionIndexer {
+    
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+
+		super.onListItemClick(l, v, position, id);
+		Resources res=this.getResources();
+		String[] str1=res.getStringArray(R.array.countries);
+		
+		//跳转到新闻页
+		
+		
+		Intent intent=new Intent(getActivity(),MainActivity.class);
+		intent.putExtra("position", 1);
+		startActivity(intent);
+		
+	}
+
+	private class CustomAdapter extends ArrayAdapter<CharSequence> implements SectionIndexer {
         private final Character[] mAlphabet;
         private final CharSequence[] mData;
 
@@ -56,7 +84,7 @@ public class ListsFastScrollWithSectionsFragment extends ListsFastScrollFragment
 //            Collections.sort(alphabet, CHARACTER_COMPARATOR);
             mAlphabet = alphabet.toArray(new Character[alphabet.size()]);
         }
-
+        	
         @Override
         public int getPositionForSection(int section) {
             char alphabetChar = mAlphabet[section];
@@ -111,10 +139,8 @@ public class ListsFastScrollWithSectionsFragment extends ListsFastScrollFragment
         }
     };
 
-    @Override
-    protected CharSequence getTitle() {
-        return super.getTitle() + ": Sections";
-    }
+	private static ListsFastScrollWithSectionsFragment fragment;
+
 
     @Override
     protected CustomAdapter onObtainData() {
