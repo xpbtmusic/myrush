@@ -188,6 +188,11 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 	@Override
 	public void onPageSelected(int position) {
 			getSupportActionBar().setTitle(mAdapter.getPageTitle(position));
+			if(0==position){
+				getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+			}else{
+				getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			}
 	
 	}
 
