@@ -11,6 +11,7 @@ import org.holoeverywhere.widget.Toast;
 
 
 
+import com.actionbarsherlock.app.ActionBar.OnMenuVisibilityListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
@@ -36,6 +37,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 public class MainActivity extends Activity implements OnPageChangeListener{
 
@@ -60,7 +62,17 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 		if(1==position){
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
-		
+		findViewById(android.R.id.home).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(null!=mIndicator){
+					mIndicator.setCurrentItem(0);
+				}
+				
+				
+			}
+		});
 		handler = new Handler(new Handler.Callback() {
 
 			@Override
@@ -187,6 +199,7 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 
 	@Override
 	public void onPageSelected(int position) {
+		
 			getSupportActionBar().setTitle(mAdapter.getPageTitle(position));
 			if(0==position){
 				getSupportActionBar().setDisplayHomeAsUpEnabled(false);
