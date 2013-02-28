@@ -11,6 +11,7 @@ import org.holoeverywhere.widget.Toast;
 
 
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnMenuVisibilityListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -21,13 +22,17 @@ import com.example.mynews.service.INgnHttpClientService;
 import com.example.mynews.service.INgnSqliteService;
 import com.example.mynews.service.impl.HttpService;
 import com.example.mynews.service.impl.NgnSqliteService;
+import com.example.mynews.utils.Constants;
 import com.example.mynews.utils.ILog;
 import com.example.mynews.utils.StringUtils;
 import com.viewpagerindicator.TitlePageIndicator;
 
 
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -49,6 +54,27 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 	private TitlePageIndicator mIndicator;
 	private Handler handler;
 	private int position;
+	 BroadcastReceiver msgReceiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent)
+			{
+				String msg = intent.getStringExtra(Constants.MSGKEY);
+				
+
+				if (msg != null) {// 如果不是空，说明是消息广播
+					
+					mIndicator.setCurrentItem(1);
+					Toast.makeText(getApplicationContext(), "disfsd", 0).show();
+
+					// getMessage(msg);// 把收到的消息传递给子类
+				} 
+			}
+
+		};
+	private ActionBar ab;
+	private int currentPosition;
+	private Menu tempMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +88,29 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 		if(1==position){
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
+		handleBroadCastTabTo();
 		findViewById(android.R.id.home).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				if(null!=mIndicator){
-					mIndicator.setCurrentItem(0);
+					if(null!=ab){
+						ab.setTitle(mAdapter.getPageTitle(position));
+						if(0!=currentPosition){
+							mIndicator.setCurrentItem(0);
+						}
+						if(0==currentPosition){
+							ab.setDisplayHomeAsUpEnabled(false);
+						}else{
+							if(ActionBar.DISPLAY_HOME_AS_UP!=ab.getDisplayOptions()){
+								ab.setDisplayHomeAsUpEnabled(true);
+							}
+							
+							
+						}
+					}
+					
+					
 				}
 				
 				
@@ -89,6 +132,7 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 				return false;
 			}
 		});
+		ab = getSupportActionBar();
 		testRss();
 		mAdapter = new TestFragmentAdapter(getSupportFragmentManager());
 		
@@ -103,7 +147,7 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 		mIndicator = (TitlePageIndicator) findViewById(R.id.indicator);
 		mIndicator.setViewPager(mPager);
 		mIndicator.setOnPageChangeListener(this);
-		mIndicator.setCurrentItem(position);
+//		mIndicator.setCurrentItem(position);
 		
 
 		// findViewById(R.id.bt).setOnClickListener(new OnClickListener() {
@@ -116,6 +160,11 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 		// }
 		// });
 
+	}
+
+	private void handleBroadCastTabTo() {
+		
+		
 	}
 
 	protected void Print() {
@@ -155,7 +204,7 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 	 @Override
 	    public boolean onCreateOptionsMenu(Menu menu) {
 	        //Used to put dark icons on light action bar
-		
+		  
 	        boolean isLight = true;
 
 	        //Create the search view
@@ -170,7 +219,7 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 //	        .setIcon(isLight ? R.drawable.ic_search_inverse : R.drawable.abs__ic_search)
 //	        .setActionView(searchView)
 //	        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
+	        this.tempMenu=menu;
 	        return true;
 	    }
 	public void replaceFragment(Fragment fragment, String backStackName) {
@@ -181,6 +230,7 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 		}
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		ft.commit();
+		
 	}
 
 	
@@ -199,14 +249,42 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 
 	@Override
 	public void onPageSelected(int position) {
-		
-			getSupportActionBar().setTitle(mAdapter.getPageTitle(position));
-			if(0==position){
-				getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-			}else{
-				getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		this.currentPosition=position;
+		if(null!=ab){
+			ab.setTitle(mAdapter.getPageTitle(position));
+			
+		}
+			
+		if(0==currentPosition){
+			tempMenu.getItem(0).setVisible(true);
+			ab.setDisplayHomeAsUpEnabled(false);
+		}else{
+			tempMenu.getItem(0).setVisible(false);
+			
+			if(ActionBar.DISPLAY_HOME_AS_UP!=ab.getDisplayOptions()){
+				ab.setDisplayHomeAsUpEnabled(true);
 			}
+			
+			
+		}
+	
+		
 	
 	}
+	@Override
+	public void onStart()
+	{// 在start方法中注册广播接收者
+		super.onStart();
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(Constants.ACTION);
+		registerReceiver(msgReceiver, intentFilter);// 注册接受消息广播
 
+	}
+
+	@Override
+	protected void onStop()
+	{// 在stop方法中注销广播接收者
+		super.onStop();
+		unregisterReceiver(msgReceiver);// 注销接受消息广播
+	}
 }

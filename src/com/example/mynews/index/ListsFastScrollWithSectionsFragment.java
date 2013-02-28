@@ -21,6 +21,7 @@ import android.widget.SectionIndexer;
 import com.example.mynews.MainActivity;
 import com.example.mynews.R;
 import com.example.mynews.pageindicator.TestFragment;
+import com.example.mynews.utils.Constants;
 import com.example.mynews.utils.ILog;
 
 public class ListsFastScrollWithSectionsFragment extends ListsFastScrollFragment {
@@ -55,14 +56,31 @@ public class ListsFastScrollWithSectionsFragment extends ListsFastScrollFragment
 		String[] str1=res.getStringArray(R.array.countries);
 		
 		//跳转到新闻页
+		sendBroadCast("tab_to_news");
 		
+//		
+//		Intent intent=new Intent(getActivity(),MainActivity.class);
+//		intent.putExtra("position", 1);
+//		startActivity(intent);
 		
-		Intent intent=new Intent(getActivity(),MainActivity.class);
-		intent.putExtra("position", 1);
-		startActivity(intent);
 		
 	}
+	/**
+	 * 
+	 * 方法说明：发送广播
+	 * 
+	 * @param msg
+	 *            消息 void
+	 */
+	protected void sendBroadCast(String msg)
+	{
+		Intent broadCast = new Intent();
+		broadCast.setAction(Constants.ACTION);
+		broadCast.putExtra(Constants.MSGKEY, msg);
+		
+		getActivity().sendBroadcast(broadCast);
 
+	}
 	private class CustomAdapter extends ArrayAdapter<CharSequence> implements SectionIndexer {
         private final Character[] mAlphabet;
         private final CharSequence[] mData;
