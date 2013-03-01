@@ -1,8 +1,14 @@
 package com.example.mynews;
 
+import org.holoeverywhere.addon.SlidingMenu.SlidingMenuA;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.widget.AdapterView;
+import org.holoeverywhere.widget.Toast;
+import org.holoeverywhere.widget.AdapterView.OnItemClickListener;
 import org.holoeverywhere.widget.ListView;
+
+import com.slidingmenu.lib.SlidingMenu;
 
 
 
@@ -15,6 +21,8 @@ import android.widget.BaseAdapter;
 
 public class MainActivity_ extends Activity {
 
+	private ListView list;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		  Holo config = Holo.defaultConfig();
@@ -23,19 +31,19 @@ public class MainActivity_ extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-//		
-//		 final SlidingMenuA sm = requireSlidingMenu();
-//	       
-//	        sm.setContent(R.layout.content);
-//	        sm.setBehindContentView(makeMenuView(savedInstanceState));
-//	        
-//	       sm.getSlidingMenu().setMode(SlidingMenu.LEFT);
-//	        sm.getSlidingMenu().setBehindWidth(computeMenuWidth());
+		
+		 final SlidingMenuA smA = requireSlidingMenu();
+		 SlidingMenu sm= smA.getSlidingMenu();
+	        smA.setContent(R.layout.content);
+		 smA.setBehindContentView(makeMenuView(savedInstanceState));
+	        sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+	        smA.getSlidingMenu().setMode(SlidingMenu.RIGHT);
+	        smA.getSlidingMenu().setBehindWidth(computeMenuWidth());
 	}
 
-//	 public SlidingMenuA requireSlidingMenu() {
-//	        return requireAddon(org.holoeverywhere.addon.SlidingMenu.class).activity(this);
-//	    }
+	 public SlidingMenuA requireSlidingMenu() {
+	        return requireAddon(org.holoeverywhere.addon.SlidingMenu.class).activity(this);
+	    }
 	 private final class ListAdapter extends BaseAdapter{
 
 		@Override
@@ -68,7 +76,9 @@ public class MainActivity_ extends Activity {
 	 private View makeMenuView(Bundle savedInstanceState) {
 	        View view = getLayoutInflater().inflate(R.layout.menu);
 	        
-	        ListView list = (ListView) view.findViewById(R.id.list);
+	        list = (ListView) view.findViewById(R.id.list);
+	      
+	        
 	        list.setAdapter(new ListAdapter());
 //	        list.setOnItemClickListener(navigationAdapter);
 	        return view;
@@ -92,4 +102,6 @@ public class MainActivity_ extends Activity {
 	        return (int) getResources().getFraction(R.dimen.demo_menu_width,
 	                getResources().getDisplayMetrics().widthPixels, 1);
 	    }
+
+	
 }

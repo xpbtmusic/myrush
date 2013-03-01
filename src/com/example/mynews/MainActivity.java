@@ -256,15 +256,23 @@ public class MainActivity extends Activity implements OnPageChangeListener{
 		}
 			
 		if(0==currentPosition){
+			ab.show();
+//			ab.setDisplayHomeAsUpEnabled(true);
 			tempMenu.getItem(0).setVisible(true);
-			ab.setDisplayHomeAsUpEnabled(false);
-		}else{
+			
+		}else if(1==currentPosition){
 			tempMenu.getItem(0).setVisible(false);
 			
 			if(ActionBar.DISPLAY_HOME_AS_UP!=ab.getDisplayOptions()){
-				ab.setDisplayHomeAsUpEnabled(true);
+//				ab.setDisplayHomeAsUpEnabled(true);
+				ab.hide();
 			}
 			
+			
+		}else if(2==currentPosition){
+			ab.show();
+//			ab.setDisplayHomeAsUpEnabled(true);
+			tempMenu.getItem(0).setVisible(false);
 			
 		}
 	

@@ -11,7 +11,7 @@ import com.example.mynews.index.ListsFastScrollWithSectionsFragment;
 import com.viewpagerindicator.IconPagerAdapter;
 
 public class TestFragmentAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
-    protected static final String[] CONTENT = new String[] { "导航","新闻", "科技", "军事", "体育","美食" };
+    protected static final String[] CONTENT = new String[] { "导航","新闻","设置"};
   
 
     private int mCount = CONTENT.length;
